@@ -1,0 +1,25 @@
+apiVersion: '2021-09-01-preview'
+kind: ContainerApp
+metadata:
+  name: ceoapi
+  resourceGroup: RG-TraderApp
+spec:
+  containers:
+  - name: ceoapi
+    image: dennisvandelaar/ceoapi:tagname
+    env:
+    - name: ASPNETCORE_URLS
+      value: http://*:80
+    resources:
+      cpu: 1.0
+      memoryInGB: 2.0
+  public: true
+  scale:
+    minReplicas: 1
+    maxReplicas: 3
+    rules:
+    - name: cpu
+      custom:
+        metricName: cpu
+        targetValue: 70
+        type: AverageValue
